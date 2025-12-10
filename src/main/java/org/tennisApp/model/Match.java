@@ -37,4 +37,13 @@ public class Match {
     public void setScore(int score) {
         this.score = score;
     }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "firstPlayerId=" + firstPlayerId +
+                ", secondPlayerId=" + secondPlayerId +
+                ", score=" + score +
+                '}';
+    }
 }

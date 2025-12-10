@@ -13,6 +13,9 @@ public class PlayerEntity {
     private String name;
 
     public PlayerEntity() {}
+    public PlayerEntity(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;

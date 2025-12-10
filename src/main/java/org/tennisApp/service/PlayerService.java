@@ -4,6 +4,7 @@ import org.tennisApp.DAO.PlayerDAO;
 import org.tennisApp.entity.PlayerEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PlayerService {
 
@@ -14,12 +15,19 @@ public class PlayerService {
     }
 
 
-    public void addNewPlayer(PlayerEntity player) {
-        this.playerDAO.addNew(player);
+    public Long addNewPlayer(PlayerEntity player) {
+        Optional<PlayerEntity> playerEntityOpt = this.playerDAO.findByName(player.getName());
+        if (playerEntityOpt.isPresent()) {
+            return playerEntityOpt.get().getId();
+        }
+
+        return  this.playerDAO.addNew(player);
     }
 
     public List<PlayerEntity> getAllPlayers() {
         return this.playerDAO.findAll();
     }
+
+
 
 }
