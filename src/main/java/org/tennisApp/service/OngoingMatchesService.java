@@ -4,19 +4,19 @@ import org.tennisApp.DTO.NewMatchRequest;
 import org.tennisApp.entity.PlayerEntity;
 import org.tennisApp.model.Match;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class OngoingMatchesService {
-    private final List<Match> matches;
+    private final HashMap<UUID, Match> matches;
     private final PlayerService playerService;
 
     public OngoingMatchesService() {
         this.playerService = new PlayerService();
-        this.matches = new ArrayList<>();
+        this.matches = new HashMap<>();
     }
 
-    public void registerNewMatch(NewMatchRequest request) {
+    public UUID registerNewMatch(NewMatchRequest request) {
         int NEW_MATCH_SCORE = 0;
         PlayerEntity firstPlayer = new PlayerEntity(request.getFirstPlayer());
         PlayerEntity secondPlayer = new PlayerEntity(request.getSecondPlayer());
@@ -24,6 +24,14 @@ public class OngoingMatchesService {
         Long firstPlayerId = this.playerService.addNewPlayer(firstPlayer);
         Long secondPlayerId = this.playerService.addNewPlayer(secondPlayer);
 
-        this.matches.add(new Match(firstPlayerId, secondPlayerId, NEW_MATCH_SCORE));
+        Match newMatch = new Match(firstPlayerId, secondPlayerId, NEW_MATCH_SCORE);
+
+        this.matches.put(newMatch.getId(), newMatch);
+
+        return newMatch.getId();
+    }
+
+    public Match getMatchByUUID (UUID uuid) {
+        return this.matches.get(uuid);
     }
 }

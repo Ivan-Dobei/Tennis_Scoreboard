@@ -10,14 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value='/css/style.css'/>">
-    <script src="<c:url value='/js/app.js'/>"></script>
 </head>
 <body>
 <header class="header">
     <section class="nav-header">
         <div class="brand">
             <div class="nav-toggle">
-                <img src="<c:url value='/images/menu.png'/>" alt="Logo" class="logo">
+
             </div>
             <span class="logo-text">TennisScoreboard</span>
         </div>
@@ -33,26 +32,17 @@
     <div class="container">
         <div>
             <h1>Start new match</h1>
-            <div class="new-match-image">
-
-            </div>
+            <div class="new-match-image"></div>
             <div class="form-container center">
-                <form method="post" action="<c:url value='/new-match'/>">
-                    <%
-                        String errorMessage = (String) request.getAttribute("errorMessage");
-                        if (errorMessage != null) {
-                    %>
-                    <p style="color: red;"><%= errorMessage %></p>
-                    <%
-                        }
-                    %>
+                <form>
+
                     <label class="label-player" for="playerOne">Player one</label>
                     <input id="playerOne" class="input-player" name="playerOne" placeholder="Name" type="text" required title="Enter a name">
 
                     <label class="label-player" for="playerTwo">Player two</label>
                     <input id="playerTwo" class="input-player" name="playerTwo" placeholder="Name" type="text" required title="Enter a name">
 
-                    <input class="form-button" type="submit" value="Start">
+                    <input id="start_match_btn" class="form-button" type="submit" value="Start">
                 </form>
             </div>
         </div>
@@ -65,5 +55,6 @@
         </p>
     </div>
 </footer>
+<script src="<c:url value='/js/app.js'/>"></script>
 </body>
 </html>

@@ -1,37 +1,32 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const navToggle = document.querySelector(".nav-toggle");
-    const navLinks = document.querySelector(".nav-links");
+const newMatchButton = document.querySelector("#start_match_btn");
 
-    navToggle.addEventListener("click", function () {
-        navLinks.classList.toggle("active");
-    });
-});
+newMatchButton.addEventListener("click", (event) => {
+    event.preventDefault();
 
-let newMatchButton = document.querySelector("#start_btn", () => {
+    const playerOne = document.querySelector("#playerOne").value;
+    const playerTwo = document.querySelector("#playerTwo").value;
+
     fetch("http://localhost:8080/Tennis_app_war_exploded/new-match", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
+        body: JSON.stringify({
+            firstPlayer: playerOne,
+            secondPlayer: playerTwo
+        })
     })
         .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP ошибка: ${response.status}`);
-        }
-        return response.json();
-    })
-        .then(data => console.log(data))
-        .catch(error => console.error("Ошибка:", error));
-})
+            if (!response.ok) {
+                throw new Error(`HTTP error: ${response.status}`);
+            }
+            return response.json(); // expect { uuid: "..." }
+        })
+        .then(data => {
+            const newMatchId = data.uuid;
+            console.log("New match ID:", newMatchId);
 
-let matchResultButton = document.querySelector("#result_btn")
-
-document.querySelectorAll(".homepage-action-button").forEach(element => {
-    element.addEventListener("click", (event) => {
-        event.preventDefault();
-    })
-})
-
-matchResultButton.addEventListener("click", () => {
-    console.log("it's working");
-})
+            window.location.href = `http://localhost:8080/Tennis_app_war_exploded/match-score?uuid=${newMatchId}`;
+        })
+        .catch(error => console.error("Error:", error));
+});

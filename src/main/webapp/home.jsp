@@ -17,20 +17,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value='/css/style.css'/>">
-    <script src="<c:url value='/js/app.js'/>"></script>
 </head>
 <body>
 <header class="header">
     <section class="nav-header">
         <div class="brand">
             <div class="nav-toggle">
-                <img src="<c:url value='/images/menu.png'/>" alt="Logo" class="logo">
+
             </div>
             <span class="logo-text">TennisScoreboard</span>
         </div>
         <div>
             <nav class="nav-links">
-                <a class="nav-link" href="<c:url value='/'/>">Home</a>
+                <a class="nav-link" href="<c:url value='/'/>">Homefdsfds</a>
                 <a class="nav-link" href="<c:url value='/'/>">Matches</a>
             </nav>
         </div>
@@ -44,7 +43,7 @@
         <div class="welcome-image"></div>
         <div class="form-container center">
             <a class="homepage-action-button" href="<c:url value='/new-match'/>">
-                <button id="start_btn" class="btn start-match">
+                <button class="btn start-match">
                     Start a new match
                 </button>
             </a>
@@ -66,6 +65,7 @@
         </p>
     </div>
 </footer>
+
 </body>
 </html>
 

@@ -1,18 +1,20 @@
 package org.tennisApp.controller;
 
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.tennisApp.DTO.NewMatchRequest;
+import org.tennisApp.DTO.NewMatchResponse;
 import org.tennisApp.exception.InvalidCredentialsException;
-import org.tennisApp.model.Match;
+import org.tennisApp.mapper.JsonMapper;
 import org.tennisApp.service.OngoingMatchesService;
+import org.tennisApp.util.ErrorResponseUtil;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @WebServlet("/new-match")
@@ -36,14 +38,22 @@ public class NewMatchController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        PrintWriter writer = response.getWriter();
         try {
             String requestJson = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-            NewMatchRequest matchRequest = new Gson().fromJson(requestJson, NewMatchRequest.class);
+            NewMatchRequest matchRequest = JsonMapper.fromJson(requestJson, NewMatchRequest.class);
             checkRequestParams(matchRequest);
-            this.matchesService.registerNewMatch(matchRequest);
 
+            UUID newMatchId = this.matchesService.registerNewMatch(matchRequest);
+
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            writer.write(JsonMapper.toJson(new NewMatchResponse(newMatchId)));
+
+        } catch (InvalidCredentialsException e) {
+            ErrorResponseUtil.handleError(writer, response, e.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {
-            //todo: and catch body
+            ErrorResponseUtil.handleError(writer, response, e.getMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
         }
     }
 
